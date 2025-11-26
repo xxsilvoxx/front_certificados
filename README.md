@@ -151,6 +151,10 @@ git checkout -b feature/nova-funcionalidade
 - .env
 - arquivos de log e temporários
 
+- 
+
 ==================================================
          FIM DA DOCUMENTAÇÃO
 ==================================================
+
+
