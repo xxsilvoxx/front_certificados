@@ -1,0 +1,32 @@
+.participantes-container {
+  padding: 20px;
+}
+
+.participante-form {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.participantes-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background: white;
+}
+
+.participantes-table th,
+.participantes-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.participantes-table th {
+  background: #f8f9fa;
+  font-weight: bold;
+  color: #333;
+}
+
+.participantes-table tr:hover {
+  background: #f8f9fa;
+}
