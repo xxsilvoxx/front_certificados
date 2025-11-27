@@ -1,6 +1,6 @@
 [file name]: src/services/api.js
 [file content begin]
-// Configuração FIXA da API - SEMPRE usar a URL do Render
+// Configuração FIXA da API - COM /api NO FINAL
 const API_BASE = 'https://back-certificados-3733.onrender.com/api';
 
 console.log('🔧 Configuração API:', {
@@ -10,7 +10,9 @@ console.log('🔧 Configuração API:', {
 
 // Função para fazer requisições
 const fetchWithErrorHandling = async (endpoint, options = {}) => {
-  const url = `${API_BASE}${endpoint}`;
+  // Garantir que o endpoint comece com /
+  const formattedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${API_BASE}${formattedEndpoint}`;
   
   try {
     console.log(`🌐 Fazendo requisição para: ${url}`);
