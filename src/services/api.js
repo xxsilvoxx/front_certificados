@@ -1,26 +1,21 @@
 [file name]: src/services/api.js
 [file content begin]
-// Configuração da API - SEMPRE usar a URL do Render
-const getApiBaseUrl = () => {
-  // Em produção (Vercel) ou desenvolvimento, usa a URL do Render
-  return 'https://back-certificados-3733.onrender.com/api';
-};
-
-const API_BASE = getApiBaseUrl();
+// Configuração FIXA da API - SEMPRE usar a URL do Render
+const API_BASE = 'https://back-certificados-3733.onrender.com/api';
 
 console.log('🔧 Configuração API:', {
   baseURL: API_BASE,
   environment: import.meta.env.MODE
 });
 
-// Função para fazer requisições com tratamento de erro
-const fetchWithErrorHandling = async (url, options = {}) => {
+// Função para fazer requisições
+const fetchWithErrorHandling = async (endpoint, options = {}) => {
+  const url = `${API_BASE}${endpoint}`;
+  
   try {
-    const fullUrl = `${API_BASE}${url.startsWith('/') ? url : `/${url}`}`;
+    console.log(`🌐 Fazendo requisição para: ${url}`);
     
-    console.log(`🌐 Fazendo requisição para: ${fullUrl}`);
-    
-    const response = await fetch(fullUrl, {
+    const response = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
         ...options.headers,
@@ -68,7 +63,7 @@ export const authService = {
       }
     } catch (error) {
       console.error('❌ Erro no login:', error);
-      throw error;
+      throw new Error('Não foi possível conectar com o servidor. Verifique sua conexão.');
     }
   },
 
@@ -84,10 +79,6 @@ export const authService = {
   getCurrentUser() {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
-  },
-
-  getToken() {
-    return localStorage.getItem('authToken');
   }
 };
 
@@ -139,7 +130,7 @@ export const apiService = {
   },
 };
 
-// Teste de conexão na inicialização
+// Teste de conexão
 export const testConnection = async () => {
   try {
     const health = await apiService.healthCheck();

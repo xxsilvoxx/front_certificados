@@ -1,13 +1,9 @@
-[file name]: src/components/Eventos/Eventos.jsx
-[file content begin]
 import React, { useState, useEffect } from 'react';
 import { apiService } from '../../services/api';
 import './Eventos.css';
 
 const Eventos = () => {
   const [eventos, setEventos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     nome: '',
     datas: '',
@@ -22,15 +18,11 @@ const Eventos = () => {
 
   const carregarEventos = async () => {
     try {
-      setLoading(true);
-      setError('');
       const data = await apiService.getEventos();
       setEventos(data);
     } catch (error) {
       console.error('Erro ao carregar eventos:', error);
-      setError('Erro ao carregar eventos: ' + error.message);
-    } finally {
-      setLoading(false);
+      alert('Erro ao carregar eventos. Verifique se o backend está rodando na porta 5000.');
     }
   };
 
@@ -59,7 +51,7 @@ const Eventos = () => {
       alert('Evento salvo com sucesso!');
     } catch (error) {
       console.error('Erro ao salvar evento:', error);
-      alert('Erro ao salvar evento: ' + error.message);
+      alert('Erro ao salvar evento. Verifique o backend.');
     }
   };
 
@@ -71,7 +63,7 @@ const Eventos = () => {
         alert('Evento removido com sucesso!');
       } catch (error) {
         console.error('Erro ao remover evento:', error);
-        alert('Erro ao remover evento: ' + error.message);
+        alert('Erro ao remover evento.');
       }
     }
   };
@@ -79,15 +71,6 @@ const Eventos = () => {
   return (
     <div className="eventos-container">
       <h2>Gerenciar Eventos</h2>
-      
-      {error && (
-        <div className="error-message">
-          {error}
-          <button onClick={carregarEventos} style={{marginLeft: '10px'}}>
-            Tentar Novamente
-          </button>
-        </div>
-      )}
       
       <form onSubmit={handleSubmit} className="evento-form">
         <div className="form-grid">
@@ -157,11 +140,7 @@ const Eventos = () => {
 
       <h3 style={{marginTop: '30px'}}>Eventos Cadastrados</h3>
       
-      {loading ? (
-        <p style={{textAlign: 'center', color: '#666', marginTop: '20px'}}>
-          Carregando eventos...
-        </p>
-      ) : eventos.length === 0 ? (
+      {eventos.length === 0 ? (
         <p style={{textAlign: 'center', color: '#666', marginTop: '20px'}}>
           Nenhum evento cadastrado ainda.
         </p>
@@ -201,4 +180,3 @@ const Eventos = () => {
 };
 
 export default Eventos;
-[file content end]
