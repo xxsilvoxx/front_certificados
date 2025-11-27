@@ -1,5 +1,3 @@
-[file name]: src/components/Login/Login.css
-[file content begin]
 .login-container {
   display: flex;
   justify-content: center;
@@ -83,6 +81,7 @@
 .input-group {
   margin-bottom: 20px;
   text-align: left;
+  position: relative;
 }
 
 .input-group input {
@@ -107,6 +106,30 @@
 .input-group input:hover {
   border-color: #b8c2cc;
 }
+
+/* NOVAS CLASSES ADICIONADAS */
+.input-valid {
+  border-color: #28a745 !important;
+}
+
+.input-invalid {
+  border-color: #dc3545 !important;
+}
+
+.validation-feedback {
+  font-size: 12px;
+  margin-top: 4px;
+  text-align: left;
+}
+
+.validation-valid {
+  color: #28a745;
+}
+
+.validation-invalid {
+  color: #dc3545;
+}
+/* FIM DAS NOVAS CLASSES */
 
 .btn {
   padding: 15px 25px;
@@ -249,4 +272,3 @@
     padding: 12px 15px;
   }
 }
-[file content end]
