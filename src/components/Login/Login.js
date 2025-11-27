@@ -23,14 +23,17 @@ const Login = ({ onLogin }) => {
     }
 
     try {
+      console.log('🔐 Tentando login com:', { username, password });
       const response = await authService.login(username, password);
+      
       if (response.success) {
+        console.log('✅ Login bem-sucedido:', response.user);
         onLogin(response.user);
       } else {
-        setError(response.message);
+        setError(response.message || 'Credenciais inválidas.');
       }
     } catch (error) {
-      console.error('Erro no login:', error);
+      console.error('❌ Erro no login:', error);
       setError(error.message || 'Erro ao conectar com o servidor. Verifique sua conexão.');
     } finally {
       setLoading(false);
@@ -40,6 +43,7 @@ const Login = ({ onLogin }) => {
   const handleDemoFill = () => {
     setUsername('coronelvivida');
     setPassword('educacao@2024');
+    setError('');
   };
 
   return (
@@ -108,6 +112,7 @@ const Login = ({ onLogin }) => {
               type="button" 
               className="demo-btn"
               onClick={handleDemoFill}
+              disabled={loading}
             >
               Preencher Credenciais de Teste
             </button>
