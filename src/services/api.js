@@ -1,11 +1,9 @@
-// Configuração dinâmica da API base
+[file name]: src/services/api.js
+[file content begin]
+// Configuração da API - SEMPRE usar a URL do Render
 const getApiBaseUrl = () => {
-  // Em produção, usa a URL do Render
-  if (import.meta.env.PROD) {
-    return import.meta.env.VITE_API_URL || 'https://back-certificados-3733.onrender.com/api';
-  }
-  // Em desenvolvimento, usa localhost
-  return 'http://localhost:5000/api';
+  // Em produção (Vercel) ou desenvolvimento, usa a URL do Render
+  return 'https://back-certificados-3733.onrender.com/api';
 };
 
 const API_BASE = getApiBaseUrl();
@@ -18,7 +16,11 @@ console.log('🔧 Configuração API:', {
 // Função para fazer requisições com tratamento de erro
 const fetchWithErrorHandling = async (url, options = {}) => {
   try {
-    const response = await fetch(url, {
+    const fullUrl = `${API_BASE}${url.startsWith('/') ? url : `/${url}`}`;
+    
+    console.log(`🌐 Fazendo requisição para: ${fullUrl}`);
+    
+    const response = await fetch(fullUrl, {
       headers: {
         'Content-Type': 'application/json',
         ...options.headers,
@@ -34,7 +36,7 @@ const fetchWithErrorHandling = async (url, options = {}) => {
       } catch {
         errorData = { error: errorText || `Erro HTTP: ${response.status}` };
       }
-      throw new Error(errorData.error || `Erro HTTP: ${response.status}`);
+      throw new Error(errorData.error || errorData.message || `Erro HTTP: ${response.status}`);
     }
 
     return await response.json();
@@ -50,16 +52,14 @@ const fetchWithErrorHandling = async (url, options = {}) => {
 
 // Serviços de autenticação
 export const authService = {
-  // Login com validação no backend
   async login(username, password) {
     try {
-      const response = await fetchWithErrorHandling(`${API_BASE}/login`, {
+      const response = await fetchWithErrorHandling('/login', {
         method: 'POST',
         body: JSON.stringify({ username, password }),
       });
 
       if (response.success) {
-        // Salva o token
         localStorage.setItem('authToken', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
         return response;
@@ -67,28 +67,25 @@ export const authService = {
         throw new Error(response.message);
       }
     } catch (error) {
+      console.error('❌ Erro no login:', error);
       throw error;
     }
   },
 
-  // Logout
   logout() {
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
   },
 
-  // Verificar se está autenticado
   isAuthenticated() {
     return !!localStorage.getItem('authToken');
   },
 
-  // Obter usuário atual
   getCurrentUser() {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
   },
 
-  // Obter token
   getToken() {
     return localStorage.getItem('authToken');
   }
@@ -96,50 +93,47 @@ export const authService = {
 
 // Serviços da API principal
 export const apiService = {
-  // Health Check
   async healthCheck() {
-    return await fetchWithErrorHandling(`${API_BASE}/health`);
+    return await fetchWithErrorHandling('/health');
   },
 
-  // Eventos
   async getEventos() {
-    return await fetchWithErrorHandling(`${API_BASE}/eventos`);
+    return await fetchWithErrorHandling('/eventos');
   },
 
   async createEvento(evento) {
-    return await fetchWithErrorHandling(`${API_BASE}/eventos`, {
+    return await fetchWithErrorHandling('/eventos', {
       method: 'POST',
       body: JSON.stringify(evento),
     });
   },
 
   async deleteEvento(id) {
-    return await fetchWithErrorHandling(`${API_BASE}/eventos/${id}`, {
+    return await fetchWithErrorHandling(`/eventos/${id}`, {
       method: 'DELETE',
     });
   },
 
-  // Participantes
   async getParticipantes() {
-    return await fetchWithErrorHandling(`${API_BASE}/participantes`);
+    return await fetchWithErrorHandling('/participantes');
   },
 
   async createParticipante(participante) {
-    return await fetchWithErrorHandling(`${API_BASE}/participantes`, {
+    return await fetchWithErrorHandling('/participantes', {
       method: 'POST',
       body: JSON.stringify(participante),
     });
   },
 
   async updateParticipanteFrequencia(id, frequencia) {
-    return await fetchWithErrorHandling(`${API_BASE}/participantes/${id}/frequencia`, {
+    return await fetchWithErrorHandling(`/participantes/${id}/frequencia`, {
       method: 'PUT',
       body: JSON.stringify({ frequencia }),
     });
   },
 
   async deleteParticipante(id) {
-    return await fetchWithErrorHandling(`${API_BASE}/participantes/${id}`, {
+    return await fetchWithErrorHandling(`/participantes/${id}`, {
       method: 'DELETE',
     });
   },
@@ -152,9 +146,10 @@ export const testConnection = async () => {
     console.log('✅ Conexão com backend estabelecida:', health);
     return true;
   } catch (error) {
-    console.warn('⚠️  Backend não disponível:', error.message);
+    console.error('❌ Erro na conexão com backend:', error.message);
     return false;
   }
 };
 
 export default apiService;
+[file content end]
