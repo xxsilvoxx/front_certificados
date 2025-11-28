@@ -1,0 +1,298 @@
+[file name]: MainSystem.css
+[file content begin]
+.main-system {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.system-header {
+  background: linear-gradient(135deg, #1e3a6b 0%, #2c5aa0 50%, #3a7bd5 100%);
+  color: white;
+  padding: 25px 30px;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.system-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ffd700, #ffed4e, #ffd700);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.header-content {
+  text-align: center;
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 2;
+}
+
+.header-content h1 {
+  margin: 0 0 8px 0;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header-content h2 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 400;
+  opacity: 0.95;
+  letter-spacing: 0.3px;
+}
+
+.header-content p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+.user-info {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 2;
+}
+
+.user-info span {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+.logout-btn {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tabs {
+  display: flex;
+  background: white;
+  border-bottom: 1px solid #e1e8ed;
+  padding: 0 30px;
+  overflow-x: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.tab {
+  background: none;
+  border: none;
+  padding: 18px 25px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  position: relative;
+  overflow: hidden;
+}
+
+.tab::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(44, 90, 160, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.tab:hover::before {
+  left: 100%;
+}
+
+.tab:hover {
+  color: #2c5aa0;
+  background: #f8fafc;
+}
+
+.tab.active {
+  color: #2c5aa0;
+  border-bottom-color: #2c5aa0;
+  background: linear-gradient(to bottom, #f8fafc, #ffffff);
+  font-weight: 600;
+}
+
+.tab-content {
+  padding: 40px;
+  min-height: calc(100vh - 200px);
+  background: white;
+  margin: 20px;
+  border-radius: 15px;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 0, 0, 0.03);
+}
+
+.tab-content h2 {
+  margin-bottom: 25px;
+  color: #2c5aa0;
+  font-size: 24px;
+  font-weight: 600;
+  border-bottom: 2px solid #f0f4f8;
+  padding-bottom: 10px;
+}
+
+/* Efeito de brilho sutil no header */
+.system-header::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .system-header {
+    padding: 20px 15px;
+    text-align: center;
+  }
+  
+  .header-content h1 {
+    font-size: 22px;
+  }
+  
+  .header-content h2 {
+    font-size: 16px;
+  }
+  
+  .user-info {
+    position: static;
+    justify-content: center;
+    margin-top: 15px;
+    padding: 8px 15px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .tabs {
+    padding: 0 15px;
+    justify-content: flex-start;
+  }
+  
+  .tab {
+    padding: 15px 18px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  
+  .tab-content {
+    padding: 25px 20px;
+    margin: 15px;
+    border-radius: 12px;
+  }
+  
+  .tab-content h2 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .system-header {
+    padding: 15px 10px;
+  }
+  
+  .header-content h1 {
+    font-size: 20px;
+  }
+  
+  .header-content h2 {
+    font-size: 14px;
+  }
+  
+  .header-content p {
+    font-size: 12px;
+  }
+  
+  .user-info {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+  }
+  
+  .tabs {
+    padding: 0 10px;
+  }
+  
+  .tab {
+    padding: 12px 15px;
+    font-size: 12px;
+  }
+  
+  .tab-content {
+    padding: 20px 15px;
+    margin: 10px;
+  }
+}
+
+/* Scrollbar personalizada para as tabs */
+.tabs::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tabs::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.tabs::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.tabs::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+[file content end]
